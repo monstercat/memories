@@ -14,15 +14,19 @@ homeController = (app) ->
   effects = [
       # 3d rot
 
-      # zoom
+      # flat rotate
       (memory)->
         move(memory.pos, [rate, 0, rate])
-        move(memory.rot, [0, 90, 0])
+        move(memory.rot, [0, 0, 90])
 
-      # 90
+      # crazy rotate
     , (memory)->
-        move(memory.pos, [rate/2, 0, rate])
+        move(memory.pos, [rate, 0, rate])
         move(memory.rot, [70, 0, 70])
+
+      # zoom
+    , (memory)->
+        move(memory.pos, [0, 0, -1000])
     ]
 
   app.get '/', (req, res) ->

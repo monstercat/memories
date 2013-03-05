@@ -1,6 +1,29 @@
 
+{ _ } = require 'underscore'
 
 homeController = (app) ->
+
+  random = (xs) -> xs[_.random(0, xs.length - 1)]
+  move = (vec, trans) ->
+    vec[0] += trans[0]
+    vec[1] += trans[1]
+    vec[2] += trans[2]
+
+  rate = 500
+  rotrate = 10
+  effects = [
+      # 3d rot
+
+      # zoom
+      (memory)->
+        move(memory.pos, [rate, 0, rate])
+        move(memory.rot, [0, 90, 0])
+
+      # 90
+    , (memory)->
+        move(memory.pos, [rate/2, 0, rate])
+        move(memory.rot, [70, 0, 70])
+    ]
 
   app.get '/', (req, res) ->
     msgs = ["In my opinion, it was the New Artist Week. A family like Monstercat, opening spots for new talents(some of them not really new) was really awesome.",
@@ -8,21 +31,24 @@ homeController = (app) ->
      "The sheer emotion that was behind Tristam's song \"Truth.\" Every time I listen to that song I can feel the effort and dedication he put into it.", "Mine was the day i found revolt i by rezonate i threw i ipod at the wall and it broke cuz i loved monstercat so much",
      "Mine was the day i found revolt i by rezonate i threw i ipod at the wall and it broke cuz i loved monstercat so much"]
 
-    x = 0
-    z = 0
-    rx = 30
-    rz = 20
-    rate = 500
-    rrate = 10
+    lpos = [0, 0, 0]
+    lrot = [30, 0, 20]
     memories = []
 
     for msg in msgs
-      p = [x += rate, 0, z += rate]
-      r = [rx += rrate, 0, rz += rrate]
-      memories.push
-        pos: p
-        rot: r
+      memory =
+        pos: lpos.slice(0)
+        rot: lrot.slice(0)
         msg: msg
+
+      random(effects)(memory)
+
+      lpos = memory.pos
+      lrot = memory.rot
+
+      memories.push memory
+
+    console.log memories
 
     res.render "index",
       title: "Express"

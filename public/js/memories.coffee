@@ -9,7 +9,11 @@ sidebar = new Object()
 
 sidebar 
 
-function sidebar
+sidebar ()->
+	@hide = true
+	@click = ()->
+		if @hide = true
+			$(".side-bar").animate({right:"0px"})
 $('.side-bar').click ()->
 	console.log 'click'
 	$(".side-bar").animate({right:"0px"})

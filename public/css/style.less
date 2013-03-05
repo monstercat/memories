@@ -28,21 +28,42 @@ body {
   opacity: 1;
 }
 
-.step {
+.memory-slide{
   text-align: center;
   width: 800px;
   opacity: 0.05;
   .transition(opacity 1s);
+  line-height: 50px;
 }
 
 a {
   color: #00B7FF;
 }
 
+@sideBar-width: 600px;
+@arrow-width: 60px;
 .side-bar{
 	position: fixed;
 	height: 100%;
-	background-color: black;
-	width: 600px;
+	// background-color: black;
+	width: @sideBar-width;
 	right: -550px;
+}
+
+.arrow{
+  float: left;
+  width: @arrow-width;
+  height: 100px;
+  background: gray;
+  margin-top: 350px;
+  border-top-left-radius: 60px;
+  border-bottom-left-radius: 60px;
+  opacity: 0.5;
+}
+
+.content{
+  float: left;
+  height: 100%;
+  background-color: black;
+  width: @sideBar-width - @arrow-width;
 }

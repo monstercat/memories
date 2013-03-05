@@ -1,7 +1,7 @@
 extends layout
 
 mixin memory(p, r, msg)
-  .step.slide(data-x=p[0], data-y=p[1], data-z=p[2], data-rotate-x=r[0], data-rotate-y=r[1], data-rotate-z=r[2])
+  .step.slide.memory-slide(data-x=p[0], data-y=p[1], data-z=p[2], data-rotate-x=r[0], data-rotate-y=r[1], data-rotate-z=r[2])
     p= msg
 
 block content
@@ -10,6 +10,10 @@ block content
       for m in memories
         mixin memory(m.pos, m.rot, m.msg)
   .side-bar
+    .arrow
+        i.icon-search
+    .content
 
   script(src='/js/impress.js')
   script(src='/js/memories.js')
+  script(src='/js/bootstrap.min.js')

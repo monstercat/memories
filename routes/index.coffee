@@ -1,5 +1,9 @@
 
-exports.index = (req, res) ->
-  res.render "index",
-    title: "Express"
 
+homeController = (app) ->
+
+  app.get '/', (req, res) ->
+    res.render "index",
+      title: "Express"
+
+module.exports = homeController

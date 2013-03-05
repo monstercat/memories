@@ -1,14 +1,17 @@
 extends layout
 
+mixin memory(p, r, msg)
+  .step.slide(data-x=p[0], data-y=p[1], data-z=p[2],
+    data-rotate-x=r[0], data-rotate-y=r[1], data-rotate-z=r[2])
+    p= msg
+
 block content
-  //- .fallback-message
+  //- .fallback-memory
   //-   p Your browser doesn't support the features required
   .memories-container
     #impress(data-transition-duration="1000")
-      .step.slide(data-x="-1000", data-y="-1500")
-        p Welcome to #{title}
-      .step.slide(data-x="-1000", data-y="-1500",data-z='-100000',data-rotate="90",data-scale="5")
-        p Welcome to #{title}
+      mixin memory([100, 100], [], "My memory")
+      mixin memory([200, 300], [30, 20, 20], "Some other memory")
   .side-bar
 
 

@@ -1,7 +1,38 @@
+
+.transition(@x) {
+  -webkit-transition: @x;
+  -moz-transition: @x;
+  -ms-transition: @x;
+  -o-transition: @x;
+  transition: @x;
+}
+
+.radial-gradient(@s,@e) {
+  background: -webkit-radial-gradient(@s, @e);
+  background: -moz-radial-gradient(@s, @e);
+  background: -ms-radial-gradient(@s, @e);
+  background: -o-radial-gradient(@s, @e);
+  background: radial-gradient(@s, @e);
+}
+
 body {
   // padding: 50px;
   margin: 0px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 42px;
+  color: #eee;
+  font-family: "Georgia", "Lucida Grande", Helvetica, Arial, sans-serif;
+  .radial-gradient(#3a3a3a, #161616);
+}
+
+.step.active {
+  opacity: 1;
+}
+
+.step {
+  text-align: center;
+  width: 800px;
+  opacity: 0.05;
+  .transition(opacity 1s);
 }
 
 a {

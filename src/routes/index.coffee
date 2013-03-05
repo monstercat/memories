@@ -35,6 +35,18 @@ homeController = (app) ->
      "The sheer emotion that was behind Tristam's song \"Truth.\" Every time I listen to that song I can feel the effort and dedication he put into it.", "Mine was the day i found revolt i by rezonate i threw i ipod at the wall and it broke cuz i loved monstercat so much",
      "Mine was the day i found revolt i by rezonate i threw i ipod at the wall and it broke cuz i loved monstercat so much"]
 
+    for msg in msgs
+      msgs.push msg
+
+    for msg in msgs
+      msgs.push msg
+
+    for msg in msgs
+      msgs.push msg
+
+    for msg in msgs
+      msgs.push msg
+
     lpos = [0, 0, 0]
     lrot = [30, 0, 20]
     memories = []

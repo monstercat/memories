@@ -6,14 +6,11 @@ mixin memory(p, r, msg)
     p= msg
 
 block content
-  //- .fallback-memory
-  //-   p Your browser doesn't support the features required
   .memories-container
     #impress(data-transition-duration="1000")
       mixin memory([100, 100], [], "My memory")
       mixin memory([200, 300], [30, 20, 20], "Some other memory")
   .side-bar
-
 
   script(src='/js/impress.js')
   script(src='/js/memories.js')

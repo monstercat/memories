@@ -1,7 +1,7 @@
 {
   "name": "memory",
   "dependencies": {
-    "bartaz/impress.js": "*"
+    "monstercat/impress.js": "*"
   },
   "main": "lib/client/memory.js",
   "scripts": [

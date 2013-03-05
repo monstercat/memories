@@ -8,7 +8,11 @@ block content
 			p Welcome to #{title}
 		.step.slide(data-x="-1000", data-y="-1500",data-z='-100000',data-rotate="90",data-scale="5")
 			p Welcome to #{title}
-	script(src='/javascripts/impress.js')
-	script
+	.test
+		textarea(row='4',cols='50',class='memory')
+		input(type='button',value='add Memory',class='addMemory') add memory
 
-		impress().init();
+	script(src='/js/impress.js')
+	script(src='/js/memories.js')
+
+		

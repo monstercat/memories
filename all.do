@@ -1,1 +1,1 @@
-redo-ifchange public/css/all
+redo-ifchange public/css/all lib/all app.js

@@ -4,7 +4,7 @@ Module dependencies.
 ###
 
 express = require("express")
-routes  = require("./routes")
+routes  = require("./lib/routes")
 http    = require("http")
 path    = require("path")
 app     = express()

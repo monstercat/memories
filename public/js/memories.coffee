@@ -1,16 +1,36 @@
 impress().init()
 
-class Sidebar 
+class Sidebar
 	constructor: ()->
-		@hide = true
+		@hided = true
 	click: ()->
-		console.log @hide
-		if @hide == true 
+		if @hided == true
 			$(".side-bar").animate({right:"0px"})
-		else 
-			$(".side-bar").animate({right:"-500px"})
-		@hide = !@hide
+			@fadeIn()
+		else
+			$(".side-bar").animate({right:"-350px"})
+			@fadeOut()
+		@hided = !@hided
+	hide: ()->
+		$(".side-bar").animate({right:"-350px"}) unless @hided
+		@fadeOut()
+		@hided=true
+	show: ()->
+		$(".side-bar").animate({right:"0px"}) if @hided == true
+		@fadeIn()
+		@hided = false
+	fadeIn: ()->
+		console.log 'fadeIn'
+		$(".form").fadeIn(2500)
+	fadeOut: ()->
+		$(".form").fadeOut()
 
 sidebar = new Sidebar()
-$(".side-bar").click ()->
+$(".content-container").click ()->
+	sidebar.show()
+
+$(".border").click ()->
 	sidebar.click()
+
+$(".memories-container").click ()->
+	sidebar.hide()

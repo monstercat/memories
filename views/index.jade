@@ -10,9 +10,22 @@ block content
       for m in memories
         mixin memory(m.pos, m.rot, m.msg)
   .side-bar
-    .arrow
-        i.icon-search
-    .content
+    .border
+      .arrow
+          i.icon-pencil.icon-large.side-bar-icon
+    .content-container
+      .content
+        .form.form-horizontal.hidden
+          .control-group
+            .controls
+              input.email(type='text',placeholder='Email')
+          .control-group
+            .controls
+              textarea.memory-text(rows='10',cols='30',placeholder='Write your Memory')
+          .control-group
+            .controls
+              a.btn(value='Submit') Submit
+
 
   script(src='/js/impress.js')
   script(src='/js/memories.js')

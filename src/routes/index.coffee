@@ -70,4 +70,7 @@ homeController = (app) ->
       title: "Express"
       memories: memories
 
+  app.post '/add', (req, res) ->
+    
+
 module.exports = homeController

@@ -272,6 +272,7 @@
         
         // reference to last entered step
         var lastEntered = null;
+        var disabled = false;
         
         // `onStepEnter` is called whenever the step element is entered
         // but the event is triggered only if the step is different than
@@ -401,6 +402,18 @@
             
             triggerEvent(root, "impress:init", { api: roots[ "impress-root-" + rootId ] });
         };
+
+        var disable = function(){
+            this.disabled = true;
+            triggerEvent(root, "impress:disable", { api: roots[ "impress-root-" + rootId ] });
+            return this.disabled;
+        };
+
+        var enable = function(){
+            this.disabled = false;
+        }
+
+        var action = function(){return !this.disabled;};
         
         // `getStep` is a helper function that returns a step element defined by parameter.
         // If a number is given, step with index given by the number is returned, if a string
@@ -635,9 +648,11 @@
             init: init,
             goto: goto,
             next: next,
-            prev: prev
+            prev: prev,
+            disable: disable,
+            action: action,
+            enable: enable
         });
-
     };
     
     // flag that can be used in JS to check if browser have passed the support test
@@ -653,6 +668,8 @@
 //
 // In future I think about moving it to make them optional, move to separate files
 // and treat more like a 'plugins'.
+
+
 (function ( document, window ) {
     'use strict';
     
@@ -682,7 +699,7 @@
         // Prevent default keydown action when one of supported key is pressed.
         document.addEventListener("keydown", function ( event ) {
             if ( event.keyCode === 9 || ( event.keyCode >= 32 && event.keyCode <= 34 ) || (event.keyCode >= 37 && event.keyCode <= 40) ) {
-                event.preventDefault();
+                if (api.action()){event.preventDefault();}
             }
         }, false);
         
@@ -702,6 +719,7 @@
         //   as another way to moving to next step... And yes, I know that for the sake of
         //   consistency I should add [shift+tab] as opposite action...
         document.addEventListener("keyup", function ( event ) {
+            if (!api.action()) return;
             if ( event.keyCode === 9 || ( event.keyCode >= 32 && event.keyCode <= 34 ) || (event.keyCode >= 37 && event.keyCode <= 40) ) {
                 switch( event.keyCode ) {
                     case 33: // pg up

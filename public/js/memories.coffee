@@ -8,11 +8,11 @@ class Sidebar
 			$(".side-bar").animate({right:"0px"})
 			@fadeIn()
 		else
-			$(".side-bar").animate({right:"-350px"})
+			$(".side-bar").animate({right:"-300px"})
 			@fadeOut()
 		@hided = !@hided
 	hide: ()->
-		$(".side-bar").animate({right:"-350px"}) unless @hided
+		$(".side-bar").animate({right:"-300px"}) unless @hided
 		@fadeOut()
 		@hided=true
 	show: ()->
@@ -22,8 +22,10 @@ class Sidebar
 	fadeIn: ()->
 		console.log 'fadeIn'
 		$(".form").fadeIn(2500)
+		impress().disable()
 	fadeOut: ()->
 		$(".form").fadeOut()
+		impress().enable()
 
 sidebar = new Sidebar()
 $(".content-container").click ()->
@@ -34,3 +36,4 @@ $(".border").click ()->
 
 $(".memories-container").click ()->
 	sidebar.hide()
+

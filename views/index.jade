@@ -11,17 +11,20 @@ block content
         mixin memory(m.pos, m.rot, m.msg)
   .side-bar
     .border
-      .arrow
-          i.icon-pencil.icon-large.side-bar-icon
+      .arrow.clickable
+        i.icon-pencil.icon-large.side-bar-icon
     .content-container
       .content
-        .form.form-horizontal.hidden
+        .form.form-horizontal.hidden(action='/')
           .control-group
             .controls
-              input.email(type='text',placeholder='Email')
+              input.email.input-filed(type='text',placeholder='Email')
           .control-group
             .controls
-              textarea.memory-text(rows='10',cols='30',placeholder='Write your Memory')
+              input.email.input-filed(type='text',placeholder='Name')
+          .control-group
+            .controls
+              textarea.memory-text.input-filed(rows='10',cols='30',placeholder='Write your Memory')
           .control-group
             .controls
               a.btn(value='Submit') Submit

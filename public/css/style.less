@@ -28,21 +28,70 @@ body {
   opacity: 1;
 }
 
-.step {
+.memory-slide{
   text-align: center;
   width: 800px;
   opacity: 0.05;
   .transition(opacity 1s);
+  line-height: 50px;
 }
 
 a {
   color: #00B7FF;
 }
 
-.side-bar{
-	position: fixed;
-	height: 100%;
-	background-color: black;
-	width: 600px;
-	right: -550px;
+@sideBar-width: 450px;
+@arrow-width: 60px;
+
+.memories-container{
+  height: 100%;
 }
+
+.border{
+  float: left;
+  height: 100%;
+  overflow: auto;
+}
+
+.side-bar{
+	position: absolute;
+	height: 100%;
+	width: @sideBar-width;
+	right: -(@sideBar-width - @arrow-width - 40px);
+  top: 0px;
+}
+
+.side-bar-icon{
+  margin: 35px 0px 0px 10px;
+}
+
+.arrow{
+  float: left;
+  width: @arrow-width;
+  height: 100px;
+  background: gray;
+  margin-top: 350px;
+  border-radius: 60px 0px 0px 60px;
+  opacity: 0.5;
+}
+
+.content-container{
+  opacity: 0.7;
+  float: left;
+  height: 100%;
+  background-color: black;
+  width: @sideBar-width - @arrow-width;
+}
+
+.content{
+  padding: 100px 0px 0px 0px;
+}
+
+.hidden{
+  display:none
+}
+
+.form-horizontal .controls{
+  margin-left: 100px;
+}
+

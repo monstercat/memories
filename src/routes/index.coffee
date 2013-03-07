@@ -6,6 +6,8 @@ homeController = (app) ->
   rate = 500
   rotrate = 10
 
+  title = "Monstercat Memories"
+
   effects = [
       # 3d rot
 
@@ -62,13 +64,13 @@ homeController = (app) ->
     console.log memories
 
     res.render "index",
-      title: "Express"
+      title: title
       memories: memories
 
   app.post '/add', (req, res) ->
     res.cookie 'memory-submitted', 'true'
     res.render "index",
-      title: "Express"
+      title: title
       memories: memories
 
 

@@ -1,5 +1,8 @@
 impress().init()
 
+Tip = require 'component-tip'
+tip = new Tip('Write your Memory').position('north')
+
 class Sidebar
 	constructor: ()->
 		@hided = true
@@ -20,10 +23,9 @@ class Sidebar
 		@fadeIn()
 		@hided = false
 	fadeIn: ()->
-		console.log 'fadeIn'
 		$(".form").fadeIn(2500)
 		impress().disable()
-	fadeOut: ()->
+	fadeOut: ->
 		$(".form").fadeOut()
 		impress().enable()
 
@@ -37,3 +39,9 @@ $(".border").click ()->
 $(".memories-container").click ()->
 	sidebar.hide()
 
+$(".arrow").mouseover ()->
+	# tip.show(100, 100)
+	tip.show $('.arrow').get(0)
+
+$(".arrow").mouseout ()->
+	tip.hide()

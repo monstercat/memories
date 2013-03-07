@@ -1,10 +1,7 @@
 {
   "name": "memory",
   "dependencies": {
-    "monstercat/impress.js": "*"
-  },
-  "main": "lib/client/memory.js",
-  "scripts": [
-    "lib/client/memory.js"
-  ]
+    "component/tip": "0.1.0",
+    "jb55/nightrider-tip": "*"
+  }
 }

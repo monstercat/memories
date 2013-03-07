@@ -52,12 +52,12 @@ homeController = (app) ->
         lrot = memory.rot
         memory
 
-      console.log mems
+      maxlen = 725
 
       res.render "index",
         title: title
         times: util.calc mems.length
-        memories: mems
+        memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
 
 #=----------------------------------------------------------------------------=#
 # Add memory

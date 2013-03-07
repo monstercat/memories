@@ -4,31 +4,16 @@ util  = require '../util'
 Memory = require '../models/memory'
 
 homeController = (app) ->
-  rate = 500
-  rotrate = 10
-
   title = "Monstercat Memories"
 
 #=----------------------------------------------------------------------------=#
 # Effects
 #=----------------------------------------------------------------------------=#
-  effects = [
-      # 3d rot
-
-      # flat rotate
-      (memory)->
-        util.move(memory.pos, [rate, 0, rate])
-        util.move(memory.rot, [0, 0, 90])
-
-      # crazy rotate
-    , (memory)->
-        util.move(memory.pos, [rate, 0, rate])
-        util.move(memory.rot, [70, 0, 70])
-
-      # zoom
-    , (memory)->
-        util.move(memory.pos, [0, 0, -1000])
-    ]
+  rate = 500
+  rotrate = 10
+  effect = (memory)->
+    util.move(memory.pos, [rate+_.random(-100, 100),rate+_.random(-100,100),rate+_.random(-100,100)])
+    util.move(memory.rot, [_.random(-90, 90), _.random(-90,90), _.random(-90, 90)])
 
 #=----------------------------------------------------------------------------=#
 # Get memories
@@ -46,13 +31,11 @@ homeController = (app) ->
         memory.pos = lpos.slice(0)
         memory.rot = lrot.slice(0)
 
-        util.random(effects)(memory)
+        effect(memory)
 
         lpos = memory.pos
         lrot = memory.rot
         memory
-
-      console.log mems
 
       res.render "index",
         title: title

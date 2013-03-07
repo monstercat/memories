@@ -64,8 +64,6 @@ homeController = (app) ->
 
       memories.push memory
 
-    console.log memories
-
     res.render "index",
       title: title
       memories: memories

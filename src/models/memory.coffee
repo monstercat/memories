@@ -7,6 +7,8 @@ ObjectId = Schema.ObjectId
 MemorySchema = new Schema
   email:
     type: String
+  memory:
+    type: String
     required: yes
   name:
     type: String

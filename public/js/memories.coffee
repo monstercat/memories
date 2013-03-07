@@ -32,7 +32,7 @@ class Sidebar
 		$(".side-bar").css("right","-500px")
 
 sidebar = new Sidebar()
-sidebar.disable()
+# sidebar.disable()
 
 $(".content-container").click ()->
 	sidebar.show()

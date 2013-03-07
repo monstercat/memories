@@ -60,6 +60,7 @@ homeController = (app) ->
 # Add memory
 #=----------------------------------------------------------------------------=#
   app.post '/add', (req, res) ->
+    console.log 'add memories'
     res.cookie 'memory-submitted', 'true'
     res.render "index",
       title: title

@@ -1,6 +1,7 @@
 
 { _ } = require 'underscore'
 util  = require '../util'
+Memory = require '../models/memory'
 
 homeController = (app) ->
   rate = 500
@@ -33,36 +34,30 @@ homeController = (app) ->
 # Get memories
 #=----------------------------------------------------------------------------=#
   app.get '/', (req, res) ->
-    msgs = ["In my opinion, it was the New Artist Week. A family like Monstercat, opening spots for new talents(some of them not really new) was really awesome.",
-     "To see the grow of artists. If you listen every song of a single artist and you start at the first one they made, and end at the most recent one you can hear them become better. Literally. So the best memory is the evolution of skill of the MCM crew.",
-     "The sheer emotion that was behind Tristam's song \"Truth.\" Every time I listen to that song I can feel the effort and dedication he put into it.", "Mine was the day i found revolt i by rezonate i threw i ipod at the wall and it broke cuz i loved monstercat so much",
-     "Mine was the day i found revolt i by rezonate i threw i ipod at the wall and it broke cuz i loved monstercat so much"]
-
-    for n in [0..5]
-      for msg in msgs
-        msgs.push msg
 
     lpos = [0, 0, 0]
     lrot = [30, 0, 20]
     memories = []
 
-    for msg in msgs
-      memory =
-        pos: lpos.slice(0)
-        rot: lrot.slice(0)
-        msg: msg
+    Memory.find {}, (err, memories)->
+      console.log err if err
+      mems = for memory in memories
+        memory = memory.toObject()
+        memory.pos = lpos.slice(0)
+        memory.rot = lrot.slice(0)
 
-      util.random(effects)(memory)
+        util.random(effects)(memory)
 
-      lpos = memory.pos
-      lrot = memory.rot
+        lpos = memory.pos
+        lrot = memory.rot
+        memory
 
-      memories.push memory
+      console.log mems
 
-    res.render "index",
-      title: title
-      times: util.calc memories.length
-      memories: memories
+      res.render "index",
+        title: title
+        times: util.calc mems.length
+        memories: mems
 
 #=----------------------------------------------------------------------------=#
 # Add memory

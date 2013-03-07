@@ -8,6 +8,9 @@ homeController = (app) ->
 
   title = "Monstercat Memories"
 
+#=----------------------------------------------------------------------------=#
+# Effects
+#=----------------------------------------------------------------------------=#
   effects = [
       # 3d rot
 
@@ -58,6 +61,7 @@ homeController = (app) ->
 
     res.render "index",
       title: title
+      times: util.calc memories.length
       memories: memories
 
 #=----------------------------------------------------------------------------=#

@@ -1,6 +1,7 @@
 
 { _ } = require 'underscore'
 util  = require '../util'
+Memory = require '../models/memory'
 
 homeController = (app) ->
 
@@ -11,56 +12,59 @@ homeController = (app) ->
     vec[1] += trans[1]
     vec[2] += trans[2]
 
+  title = "Monstercat Memories"
+
+#=----------------------------------------------------------------------------=#
+# Effects
+#=----------------------------------------------------------------------------=#
   rate = 500
   rotrate = 10
   effect = (memory)->
-    move(memory.pos, [rate+_.random(-100, 100),rate+_.random(-100,100),rate+_.random(-100,100)])
-    move(memory.rot, [_.random(-90, 90), _.random(-90,90), _.random(-90, 90)])
-
-  rate = 500
-  rotrate = 10
-
-  title = "Monstercat Memories"
+    util.move(memory.pos, [rate+_.random(-100, 100),rate+_.random(-100,100),rate+_.random(-100,100)])
+    util.move(memory.rot, [_.random(-90, 90), _.random(-90,90), _.random(-90, 90)])
 
 #=----------------------------------------------------------------------------=#
 # Get memories
 #=----------------------------------------------------------------------------=#
   app.get '/', (req, res) ->
-    msgs = ["In my opinion, it was the New Artist Week. A family like Monstercat, opening spots for new talents(some of them not really new) was really awesome.",
-     "To see the grow of artists. If you listen every song of a single artist and you start at the first one they made, and end at the most recent one you can hear them become better. Literally. So the best memory is the evolution of skill of the MCM crew.",
-     "The sheer emotion that was behind Tristam's song \"Truth.\" Every time I listen to that song I can feel the effort and dedication he put into it.", "Mine was the day i found revolt i by rezonate i threw i ipod at the wall and it broke cuz i loved monstercat so much",
-     "Mine was the day i found revolt i by rezonate i threw i ipod at the wall and it broke cuz i loved monstercat so much"]
-
-    for n in [0..5]
-      for msg in msgs
-        msgs.push msg
 
     lpos = [0, 0, 0]
     lrot = [30, 0, 20]
     memories = []
 
-    for msg in msgs
-      memory =
-        pos: lpos.slice(0)
-        rot: lrot.slice(0)
-        msg: msg
+    Memory.find {}, (err, memories)->
+      console.log err if err
+      mems = for memory in memories
+        memory = memory.toObject()
+        memory.pos = lpos.slice(0)
+        memory.rot = lrot.slice(0)
 
-      effect(memory)
-      lpos = memory.pos
-      lrot = memory.rot
+        effect(memory)
 
-      memories.push memory
+        lpos = memory.pos
+        lrot = memory.rot
+        memory
 
-    res.render "index",
-      title: title
-      times: util.calc memories.length
-      memories: memories
+      res.render "index",
+        title: title
+        times: util.calc mems.length
+        memories: mems
 
 #=----------------------------------------------------------------------------=#
 # Add memory
 #=----------------------------------------------------------------------------=#
   app.post '/add', (req, res) ->
-    console.log 'add memories'
+    # console.log 'add memories'
+    console.log 'show body element'
+    {email, name, memory} = req.body
+
+    new_memory = new Memory()
+    new_memory.email = email
+    new_memory.name = name 
+    new_memory.memory = memory 
+
+    # new_memory.save (err,model)->
+    #   Memory.find {}, (err, memories)->
     res.cookie 'memory-submitted', 'true'
     res.render "index",
       title: title

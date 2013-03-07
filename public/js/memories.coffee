@@ -36,6 +36,7 @@ sidebar = new Sidebar()
 
 $(".content-container").click ()->
 	sidebar.show()
+	return true
 
 $(".border").click ()->
 	sidebar.click()

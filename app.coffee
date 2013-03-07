@@ -13,7 +13,7 @@ app      = express()
 mongoose.connect 'localhost', 'memories'
 
 app.configure ->
-  app.set "port", process.env.PORT or 3000
+  app.set "port", process.env.PORT or process.argv[2] or 3000
   app.set "views", __dirname + "/views"
   app.set "view engine", "jade"
   app.use express.favicon()

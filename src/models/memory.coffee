@@ -13,7 +13,7 @@ MemorySchema = new Schema
   name:
     type: String
     required: yes
-, collection: "memory"
+, collection: "Memory"
 
 Memory = mongoose.model 'Memory', MemorySchema
 

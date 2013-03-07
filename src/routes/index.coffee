@@ -45,6 +45,8 @@ homeController = (app) ->
         lrot = memory.rot
         memory
 
+      maxlen = 725
+
       res.render "index",
         title: title
         times: util.calc mems.length

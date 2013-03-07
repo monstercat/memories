@@ -9,7 +9,7 @@ exports.move = (vec, trans) ->
   vec[1] += trans[1]
   vec[2] += trans[2]
 
-exports.calc = (n, y=60) ->
+exports.calc = (n, y=60*60*1000+5000) ->
   n: n
-  read: Math.floor(60*1000*((3*y)/(4*n)))
-  trans: Math.floor(60*1000*(y/(4*n)))
+  read: Math.floor((3*y)/(4*n))
+  trans: Math.floor(y/(4*n))

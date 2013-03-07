@@ -3,11 +3,14 @@
 Module dependencies.
 ###
 
-express = require("express")
-routes  = require("./lib/routes")
-http    = require("http")
-path    = require("path")
-app     = express()
+express  = require "express"
+routes   = require "./lib/routes"
+http     = require "http"
+path     = require "path"
+mongoose = require 'mongoose'
+app      = express()
+
+mongoose.connect 'localhost', 'memories'
 
 app.configure ->
   app.set "port", process.env.PORT or 3000

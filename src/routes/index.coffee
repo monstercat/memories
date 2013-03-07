@@ -5,29 +5,16 @@ homeController = (app) ->
 
   random = (xs) -> xs[_.random(0, xs.length - 1)]
   move = (vec, trans) ->
+
     vec[0] += trans[0]
     vec[1] += trans[1]
     vec[2] += trans[2]
 
   rate = 500
   rotrate = 10
-  effects = [
-      # 3d rot
-
-      # flat rotate
-      (memory)->
-        move(memory.pos, [rate, 0, rate])
-        move(memory.rot, [0, 0, 90])
-
-      # crazy rotate
-    , (memory)->
-        move(memory.pos, [rate, 0, rate])
-        move(memory.rot, [70, 0, 70])
-
-      # zoom
-    , (memory)->
-        move(memory.pos, [0, 0, -1000])
-    ]
+  effect = (memory)->
+    move(memory.pos, [rate+_.random(-100, 100),rate+_.random(-100,100),rate+_.random(-100,100)])
+    move(memory.rot, [_.random(-90, 90), _.random(-90,90), _.random(-90, 90)])
 
   app.get '/', (req, res) ->
     msgs = ["In my opinion, it was the New Artist Week. A family like Monstercat, opening spots for new talents(some of them not really new) was really awesome.",
@@ -57,14 +44,12 @@ homeController = (app) ->
         rot: lrot.slice(0)
         msg: msg
 
-      random(effects)(memory)
+      effect(memory)
 
       lpos = memory.pos
       lrot = memory.rot
 
       memories.push memory
-
-    console.log memories
 
     res.render "index",
       title: "Express"

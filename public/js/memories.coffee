@@ -28,8 +28,12 @@ class Sidebar
 	fadeOut: ->
 		$(".form").fadeOut()
 		impress().enable()
+	disable:->
+		$(".side-bar").css("right","-500px")
 
 sidebar = new Sidebar()
+sidebar.disable()
+
 $(".content-container").click ()->
 	sidebar.show()
 

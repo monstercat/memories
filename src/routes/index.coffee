@@ -53,11 +53,12 @@ homeController = (app) ->
         memory
 
       maxlen = 725
+      nolongs = _(mems).filter ((m) -> m.memory.length <= maxlen)
 
       res.render "index",
         title: title
-        times: util.calc mems.length
-        memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
+        times: util.calc nolongs.length
+        memories: nolongs
 
 #=----------------------------------------------------------------------------=#
 # Add memory

@@ -1,0 +1,21 @@
+{
+  "name": "nightrider-tip",
+  "repo": "jb55/nightrider-tip",
+  "description": "Nightrider theme for tool tips",
+  "version": "0.0.1",
+  "keywords": [
+    "nightrider",
+    "theme",
+    "tip",
+    "tooltip",
+    "tooltips"
+  ],
+  "dependencies": {},
+  "development": {
+    "jb55/domready": "*",
+    "component/tip": "*"
+  },
+  "styles": [
+    "nightrider-tip.css"
+  ]
+}

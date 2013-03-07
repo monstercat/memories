@@ -7,9 +7,17 @@ mixin memory(p, r, msg)
 
 block append scripts
   script
-    setInterval(function(){
-      impress().next();
-    }, #{ times.read });
+    function doit(){
+      setTimeout(function(){
+        impress().next();
+        setTimeout(function(){
+          doit();
+        }, #{ times.trans });
+      }, #{ times.read });
+    }
+
+    doit();
+
 
 block content
   .memories-container

@@ -1,32 +1,27 @@
 
 { _ } = require 'underscore'
+util  = require '../util'
 
 homeController = (app) ->
-
-  random = (xs) -> xs[_.random(0, xs.length - 1)]
-  move = (vec, trans) ->
-    vec[0] += trans[0]
-    vec[1] += trans[1]
-    vec[2] += trans[2]
-
   rate = 500
   rotrate = 10
+
   effects = [
       # 3d rot
 
       # flat rotate
       (memory)->
-        move(memory.pos, [rate, 0, rate])
-        move(memory.rot, [0, 0, 90])
+        util.move(memory.pos, [rate, 0, rate])
+        util.move(memory.rot, [0, 0, 90])
 
       # crazy rotate
     , (memory)->
-        move(memory.pos, [rate, 0, rate])
-        move(memory.rot, [70, 0, 70])
+        util.move(memory.pos, [rate, 0, rate])
+        util.move(memory.rot, [70, 0, 70])
 
       # zoom
     , (memory)->
-        move(memory.pos, [0, 0, -1000])
+        util.move(memory.pos, [0, 0, -1000])
     ]
 
   app.get '/', (req, res) ->
@@ -57,7 +52,7 @@ homeController = (app) ->
         rot: lrot.slice(0)
         msg: msg
 
-      random(effects)(memory)
+      util.random(effects)(memory)
 
       lpos = memory.pos
       lrot = memory.rot

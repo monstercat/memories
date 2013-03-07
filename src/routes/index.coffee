@@ -4,73 +4,121 @@ util  = require '../util'
 Memory = require '../models/memory'
 
 homeController = (app) ->
-
-  random = (xs) -> xs[_.random(0, xs.length - 1)]
-  move = (vec, trans) ->
-
-    vec[0] += trans[0]
-    vec[1] += trans[1]
-    vec[2] += trans[2]
+  rate = 500
+  rotrate = 10
 
   title = "Monstercat Memories"
+
+  generateEffect = (memories)->
+    lpos = [0, 0, 0]
+    lrot = [30, 0, 20]
+
+    mems = for memory in memories
+      memory = memory.toObject()
+      memory.pos = lpos.slice(0)
+      memory.rot = lrot.slice(0)
+
+      util.random(effects)(memory)
+
+      lpos = memory.pos
+      lrot = memory.rot
+      memory
+    mems
 
 #=----------------------------------------------------------------------------=#
 # Effects
 #=----------------------------------------------------------------------------=#
-  rate = 500
-  rotrate = 10
-  effect = (memory)->
-    util.move(memory.pos, [rate+_.random(-100, 100),rate+_.random(-100,100),rate+_.random(-100,100)])
-    util.move(memory.rot, [_.random(-90, 90), _.random(-90,90), _.random(-90, 90)])
+
+  effects = [
+      # 3d rot
+
+      # flat rotate
+      (memory)->
+        util.move(memory.pos, [rate, 0, rate])
+        util.move(memory.rot, [0, 0, 90])
+
+      # crazy rotate
+    , (memory)->
+        util.move(memory.pos, [rate, 0, rate])
+        util.move(memory.rot, [70, 0, 70])
+
+      # zoom
+    , (memory)->
+        util.move(memory.pos, [0, 0, -1000])
+
+    ]
+
+  cache = (wait, fn)->
+    data = null
+    lastErr = null
+    invalidCache = yes
+    return (cb)->
+      if invalidCache
+        fn (err, d) ->
+          lassErr = null
+          data = d
+          invalidCache = no
+          setTimeout (-> invalidCache = yes), wait 
+          cb err,d
+      else
+        cb lastErr, data
+
+  getMemories = cache 1000, (done)->
+    Memory.find {}, (err, memories) ->
+      done(err, memories)
+
 
 #=----------------------------------------------------------------------------=#
 # Get memories
 #=----------------------------------------------------------------------------=#
   app.get '/', (req, res) ->
-
-    lpos = [0, 0, 0]
-    lrot = [30, 0, 20]
-    memories = []
-
-    Memory.find {}, (err, memories)->
+    getMemories (err, memories)->
+      mems = memories.slice(0)
       console.log err if err
-      mems = for memory in memories
-        memory = memory.toObject()
-        memory.pos = lpos.slice(0)
-        memory.rot = lrot.slice(0)
-
-        effect(memory)
-
-        lpos = memory.pos
-        lrot = memory.rot
-        memory
-
+      mems = util.shuffle(mems)
+      mems = generateEffect(mems)
       maxlen = 725
 
       res.render "index",
         title: title
         times: util.calc mems.length
-        memories: mems
+        memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
 
 #=----------------------------------------------------------------------------=#
 # Add memory
 #=----------------------------------------------------------------------------=#
   app.post '/add', (req, res) ->
-    # console.log 'add memories'
+    new_memory = new Memory req.body
+    getMemories (err, memories)->
+      console.log err if err
+      mems = memories.slice(0)
+      mems = util.shuffle(memories)
+      mems.unshift(new_memory)
+      mems = generateEffect(mems)
+      
+      maxlen = 725
+
+      console.log mems
+
+      res.cookie 'memory-submitted', 'true'
+      res.render "index",
+        title: title
+        times: util.calc mems.length
+        memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
+
+#=----------------------------------------------------------------------------=#
+# get memories and start from a specific one
+#=----------------------------------------------------------------------------=#
+  app.get '/:id', (req, res) ->
     console.log 'show body element'
-    {email, name, memory} = req.body
+    Memory.find {}, (err, memories)->
+      console.log err if err
+      mems = util.shuffle(memories)
+      mems.unshift(new_memory)
 
-    new_memory = new Memory()
-    new_memory.email = email
-    new_memory.name = name 
-    new_memory.memory = memory 
-
-    # new_memory.save (err,model)->
-    #   Memory.find {}, (err, memories)->
-    res.cookie 'memory-submitted', 'true'
-    res.render "index",
-      title: title
-      memories: memories
-
+      res.cookie 'memory-submitted', 'true'
+      res.render "index",
+        title: title
+        memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
 
 module.exports = homeController

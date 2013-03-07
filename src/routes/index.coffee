@@ -66,7 +66,7 @@ homeController = (app) ->
       memories: memories
 
   app.post '/add', (req, res) ->
-    console.log 'get called'
+    res.cookie 'memory-submitted', 'true'
     res.render "index",
       title: "Express"
       memories: memories

@@ -1,4 +1,6 @@
 
+{ _ } = require 'underscore'
+
 exports.random = (xs) ->
   xs[_.random(0, xs.length - 1)]
 

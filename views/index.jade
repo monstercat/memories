@@ -4,9 +4,15 @@ mixin memory(p, r, msg)
   .step.slide.memory-slide(data-x=p[0], data-y=p[1], data-z=p[2], data-rotate-x=r[0], data-rotate-y=r[1], data-rotate-z=r[2])
     p= msg
 
+block append scripts
+  script
+    setInterval(function(){
+      impress().next();
+    }, #{ times.read });
+
 block content
   .memories-container
-    #impress(data-transition-duration="2000")
+    #impress(data-transition-duration=times.trans)
       for m in memories
         mixin memory(m.pos, m.rot, m.msg)
   .side-bar

@@ -26,6 +26,9 @@ homeController = (app) ->
         util.move(memory.pos, [0, 0, -1000])
     ]
 
+#=----------------------------------------------------------------------------=#
+# Get memories
+#=----------------------------------------------------------------------------=#
   app.get '/', (req, res) ->
     msgs = ["In my opinion, it was the New Artist Week. A family like Monstercat, opening spots for new talents(some of them not really new) was really awesome.",
      "To see the grow of artists. If you listen every song of a single artist and you start at the first one they made, and end at the most recent one you can hear them become better. Literally. So the best memory is the evolution of skill of the MCM crew.",
@@ -67,6 +70,9 @@ homeController = (app) ->
       title: title
       memories: memories
 
+#=----------------------------------------------------------------------------=#
+# Add memory
+#=----------------------------------------------------------------------------=#
   app.post '/add', (req, res) ->
     res.cookie 'memory-submitted', 'true'
     res.render "index",

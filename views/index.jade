@@ -25,10 +25,7 @@ block content
       for m in memories
         mixin memory(m.pos, m.rot, m.memory)
   .side-bar
-    .border
-      .arrow.clickable
-        i.icon-pencil.icon-large.side-bar-icon
-      .arrow-tip
+    i.icon-pencil.icon-large.side-bar-icon
     .content-container
       .content
         form.form-horizontal.hidden.form(action='/add',method="post")
@@ -50,6 +47,9 @@ block content
           .control-group
             .controls
               input.btn(type='submit',value='Submit') Submit
+    .border
+      .arrow.clickable
+      .arrow-tip
 
   script(src='js/components.js')
   script(src='/js/impress.js')

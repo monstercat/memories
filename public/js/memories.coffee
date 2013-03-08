@@ -33,6 +33,7 @@ class Sidebar
 
 sidebar = new Sidebar()
 # sidebar.disable()
+# idebar.show()
 
 $(".content-container").click ()->
 	sidebar.show()

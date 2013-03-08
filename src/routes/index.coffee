@@ -94,7 +94,7 @@ homeController = (app) ->
         console.log err if err
         mems = memories.slice(0)
         util.shuffle(mems)
-        mems.unshift(doc)
+        mems.unshift(doc) if doc
         mems = generateEffect(mems)
         maxlen = 725
 

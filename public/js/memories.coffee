@@ -33,7 +33,17 @@ class Sidebar
 
 sidebar = new Sidebar()
 # sidebar.disable()
-# idebar.show()
+
+validateForm = ()->
+	console.log 'show someting'
+	console.log $('.email').val
+	unless $('.email').val.length > 0
+		return false
+	unless $('.name').val.length > 0
+		return false
+	unless $('.memory-text').val.length > 0
+		return false
+	return false
 
 $(".content-container").click ()->
 	sidebar.show()
@@ -42,8 +52,8 @@ $(".content-container").click ()->
 $(".border,.side-bar-icon").click ()->
 	sidebar.click()
 
-$(".memories-container").click ()->
-	sidebar.hide()
+# $(".memories-container").click ()->
+# 	sidebar.hide()
 
 $(".arrow").mouseover ()->
 	tip.show $('.arrow').get(0)

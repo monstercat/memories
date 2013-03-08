@@ -14,10 +14,31 @@ block append scripts
           doit();
         }, #{ times.trans });
       }, #{ times.read });
-    }
+    };
+
+    function validateForm(){
+      alertify.init();
+      return false;
+      if($('.email').val().length <= 0){
+        alertify.error("Please enter you email");
+        return false;
+      }
+         
+      if($('.name').val().length <= 0){
+        alertify.error("Please enter you name");
+        return false;
+      }
+
+      if($('.memory-text').val().length <= 0){
+        console.log('show alert');
+        alertify.error("Please enter you email");
+        return false;
+      }
+
+      return true;
+    };
 
     doit();
-
 
 block content
   .memories-container
@@ -28,7 +49,7 @@ block content
     i.icon-pencil.icon-large.side-bar-icon.clickable
     .content-container
       .content
-        form.form-horizontal.hidden.form(action='/add',method="post")
+        form.form-horizontal.hidden.form(action='/add',method="post",onsubmit="javascript:return validateForm();")
           .control-group
             .controls
               h4 What has been your fondest memory from the past year and a half that volves Monstercat or the artists?
@@ -54,4 +75,3 @@ block content
   script(src='js/components.js')
   script(src='/js/impress.js')
   script(src='/js/memories.js')
-  script(src='/js/bootstrap.min.js')

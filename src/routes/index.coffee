@@ -90,19 +90,19 @@ homeController = (app) ->
   app.post '/add', (req, res) ->
     new_memory = new Memory req.body
     getMemories (err, memories)->
-      console.log err if err
-      mems = memories.slice(0)
-      util.shuffle(memories)
-      mems.unshift(new_memory)
-      mems = generateEffect(mems)
+      new_memory.save (err, doc) ->
+        console.log err if err
+        mems = memories.slice(0)
+        util.shuffle(mems)
+        mems.unshift(doc)
+        mems = generateEffect(mems)
+        maxlen = 725
 
-      maxlen = 725
-
-      res.cookie 'memory-submitted', 'true'
-      res.render "index",
-        title: title
-        times: util.calc mems.length
-        memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
+        res.cookie 'memory-submitted', 'true'
+        res.render "index",
+          title: title
+          times: util.calc mems.length
+          memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
 
 #=----------------------------------------------------------------------------=#
 # get memories and start from a specific one
@@ -112,9 +112,9 @@ homeController = (app) ->
     getMemories (err, memories)->
       console.log err if err
       mems = memories.slice(0)
-      util.shuffle(memories)
+      util.shuffle(mems)
+      mems = _.sortBy(mems, (m)-> return m._id.toString() != id )
       mems = generateEffect(_.sortBy(mems, (m)-> return m._id.toString() != id ))
-
       maxlen = 725
 
       res.cookie 'memory-submitted', 'true'

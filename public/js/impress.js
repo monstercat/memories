@@ -744,6 +744,8 @@
         document.addEventListener("click", function ( event ) {
             // event delegation with "bubbling"
             // check if event target (or any of its parents is a link)
+            if (!api.action()) {return;}
+
             var target = event.target;
             while ( (target.tagName !== "A") &&
                     (target !== document.documentElement) ) {
@@ -767,6 +769,7 @@
         
         // delegated handler for clicking on step elements
         document.addEventListener("click", function ( event ) {
+            if (!api.action()) {return;}
             var target = event.target;
             // find closest step element that is not active
             while ( !(target.classList.contains("step") && !target.classList.contains("active")) &&

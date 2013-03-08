@@ -28,20 +28,31 @@ class Sidebar
 	fadeOut: ->
 		$(".form").fadeOut()
 		impress().enable()
+	disable:->
+		$(".side-bar").css("right","-500px")
 
 sidebar = new Sidebar()
+# sidebar.disable()
+# idebar.show()
+
 $(".content-container").click ()->
 	sidebar.show()
+	return true
 
-$(".border").click ()->
+$(".border,.side-bar-icon").click ()->
 	sidebar.click()
 
 $(".memories-container").click ()->
 	sidebar.hide()
 
 $(".arrow").mouseover ()->
-	# tip.show(100, 100)
 	tip.show $('.arrow').get(0)
 
 $(".arrow").mouseout ()->
+	tip.hide()
+
+$(".side-bar-icon").mouseover ()->
+	tip.show $('.arrow').get(0)
+
+$(".side-bar-icon").mouseout ()->
 	tip.hide()

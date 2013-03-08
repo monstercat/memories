@@ -13,3 +13,12 @@ exports.calc = (n, y=60*60*1000+5000) ->
   n: n
   read: Math.floor((3*y)/(4*n))
   trans: Math.floor(y/(4*n))
+
+exports.shuffle = (array)->
+	m = array.length
+	while (m) 
+    	i = Math.floor(Math.random() * m--)
+    	t = array[m]
+    	array[m] = array[i]
+    	array[i] = t
+  	return array;

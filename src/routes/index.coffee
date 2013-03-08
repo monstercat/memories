@@ -75,8 +75,8 @@ homeController = (app) ->
     getMemories (err, memories)->
       mems = memories.slice(0)
       console.log err if err
-      mems = util.shuffle(mems)
-      mems = generateEffect(mems)
+      util.shuffle(mems)
+      generateEffect(mems)
       maxlen = 725
 
       res.render "index",
@@ -92,13 +92,11 @@ homeController = (app) ->
     getMemories (err, memories)->
       console.log err if err
       mems = memories.slice(0)
-      mems = util.shuffle(memories)
+      util.shuffle(memories)
       mems.unshift(new_memory)
-      mems = generateEffect(mems)
+      generateEffect(mems)
       
       maxlen = 725
-
-      console.log mems
 
       res.cookie 'memory-submitted', 'true'
       res.render "index",
@@ -110,15 +108,19 @@ homeController = (app) ->
 # get memories and start from a specific one
 #=----------------------------------------------------------------------------=#
   app.get '/:id', (req, res) ->
-    console.log 'show body element'
-    Memory.find {}, (err, memories)->
+    { id } = req.params
+    getMemories (err, memories)->
       console.log err if err
-      mems = util.shuffle(memories)
-      mems.unshift(new_memory)
+      mems = memories.slice(0)
+      util.shuffle(memories)
+      mems = generateEffect(_.sortBy(mems, (m)-> return m._id.toString() != id ))
+
+      maxlen = 725
 
       res.cookie 'memory-submitted', 'true'
       res.render "index",
         title: title
+        times: util.calc mems.length
         memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
 
 module.exports = homeController

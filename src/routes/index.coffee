@@ -76,7 +76,7 @@ homeController = (app) ->
       mems = memories.slice(0)
       console.log err if err
       util.shuffle(mems)
-      generateEffect(mems)
+      mems = generateEffect(mems)
       maxlen = 725
       nolongs = _(mems).filter ((m) -> m.memory.length <= maxlen)
 
@@ -95,8 +95,8 @@ homeController = (app) ->
       mems = memories.slice(0)
       util.shuffle(memories)
       mems.unshift(new_memory)
-      generateEffect(mems)
-      
+      mems = generateEffect(mems)
+
       maxlen = 725
 
       res.cookie 'memory-submitted', 'true'

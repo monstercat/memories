@@ -32,11 +32,8 @@ class Sidebar
 		$(".side-bar").css("right","-500px")
 
 sidebar = new Sidebar()
-# sidebar.disable()
 
 validateForm = ()->
-	console.log 'show someting'
-	console.log $('.email').val
 	unless $('.email').val.length > 0
 		return false
 	unless $('.name').val.length > 0
@@ -44,6 +41,7 @@ validateForm = ()->
 	unless $('.memory-text').val.length > 0
 		return false
 	return false
+sidebar.disable()
 
 $(".content-container").click ()->
 	sidebar.show()

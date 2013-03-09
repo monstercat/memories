@@ -22,6 +22,9 @@ homeController = (app) ->
 
       lpos = memory.pos
       lrot = memory.rot
+
+      memory.name = util.anonymise memory.name
+
       memory
     mems
 
@@ -48,22 +51,8 @@ homeController = (app) ->
 
     ]
 
-  cache = (wait, fn)->
-    data = null
-    lastErr = null
-    invalidCache = yes
-    return (cb)->
-      if invalidCache
-        fn (err, d) ->
-          lassErr = null
-          data = d
-          invalidCache = no
-          setTimeout (-> invalidCache = yes), wait 
-          cb err,d
-      else
-        cb lastErr, data
 
-  getMemories = cache 1000, (done)->
+  getMemories = util.cache 5000, (done)->
     Memory.find {}, (err, memories) ->
       done(err, memories)
 
@@ -78,11 +67,12 @@ homeController = (app) ->
       util.shuffle(mems)
       mems = generateEffect(mems)
       maxlen = 725
+      nolongs = _(mems).filter ((m) -> m.memory.length <= maxlen)
 
       res.render "index",
         title: title
-        times: util.calc mems.length
-        memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
+        times: util.calc nolongs.length
+        memories: nolongs
 
 #=----------------------------------------------------------------------------=#
 # Add memory

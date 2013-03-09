@@ -38,15 +38,20 @@ $(".content-container").click ()->
 	sidebar.show()
 	return true
 
-$(".border").click ()->
+$(".border,.side-bar-icon").click ()->
 	sidebar.click()
 
 $(".memories-container").click ()->
 	sidebar.hide()
 
 $(".arrow").mouseover ()->
-	# tip.show(100, 100)
 	tip.show $('.arrow').get(0)
 
 $(".arrow").mouseout ()->
+	tip.hide()
+
+$(".side-bar-icon").mouseover ()->
+	tip.show $('.arrow').get(0)
+
+$(".side-bar-icon").mouseout ()->
 	tip.hide()

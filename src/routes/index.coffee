@@ -58,7 +58,7 @@ homeController = (app) ->
           lassErr = null
           data = d
           invalidCache = no
-          setTimeout (-> invalidCache = yes), wait 
+          setTimeout (-> invalidCache = yes), wait
           cb err,d
       else
         cb lastErr, data

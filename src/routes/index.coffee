@@ -22,6 +22,9 @@ homeController = (app) ->
 
       lpos = memory.pos
       lrot = memory.rot
+
+      memory.name = util.anonymise memory.name
+
       memory
     mems
 

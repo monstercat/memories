@@ -38,3 +38,12 @@ exports.cache = (wait, fn)->
         cb err,d
     else
       cb lastErr, data
+
+exports.anonymise = (name) ->
+  n = []
+  xs = name.split(" ").filter (n) -> n and n.length > 0
+  n.push xs[0] if xs.length > 0
+  if xs.length > 1
+    last = xs.pop()
+    n.push last[0] if last and last.length > 0
+  n.join " "

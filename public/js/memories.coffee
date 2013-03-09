@@ -33,14 +33,6 @@ class Sidebar
 
 sidebar = new Sidebar()
 
-validateForm = ()->
-	unless $('.email').val.length > 0
-		return false
-	unless $('.name').val.length > 0
-		return false
-	unless $('.memory-text').val.length > 0
-		return false
-	return false
 # sidebar.disable()
 
 $(".content-container").click ()->
@@ -67,14 +59,14 @@ $(".side-bar-icon").mouseout ()->
 
 $(".memory-form").submit ()->
 	console.log 'clicked submit'
-	unless $('.email').val().length > 0
+	unless $('#form-email').val().length > 0
 		alertify.error("Please enter you email")
 		return false
-	unless $('.name').val().length > 0
+	unless $('#form-name').val().length > 0
 		alertify.error("Please enter you name")
 		return false
-	unless $('.memory-text').val().length > 0
+	unless $('#form-memory').val().length > 0
 		alertify.error("Please enter you memory")
 		return false
-	return false
+	return true
 

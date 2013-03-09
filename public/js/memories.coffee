@@ -66,3 +66,17 @@ $(".side-bar-icon").mouseover ()->
 
 $(".side-bar-icon").mouseout ()->
 	tip.hide()
+
+$(".memory-form").submit ()->
+	console.log 'clicked submit'
+	unless $('.email').val().length > 0
+		alertify.error("Please enter you email")
+		return false
+	unless $('.name').val().length > 0
+		alertify.error("Please enter you name")
+		return false
+	unless $('.memory-text').val().length > 0
+		alertify.error("Please enter you memory")
+		return false
+	return false
+

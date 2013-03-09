@@ -1,9 +1,12 @@
 extends layout
 
-mixin memory(p, r, msg)
+mixin memory(p, r, msg, name)
   - var fsize = "font-size: " + 1/(Math.log(msg.length) / 5) + "em";
   .step.slide.memory-slide(data-x=p[0], data-y=p[1], data-z=p[2], data-rotate-x=r[0], data-rotate-y=r[1], data-rotate-z=r[2])
-    p(style=fsize)= msg
+    .memory(style=fsize)
+      p= msg
+      hr(style="width: 200px; margin: auto")
+      p.name= name
 
 block append scripts
   script
@@ -15,7 +18,6 @@ block append scripts
         }, #{ times.trans });
       }, #{ times.read });
     }
-
     doit();
 
 
@@ -23,33 +25,33 @@ block content
   .memories-container
     #impress(data-transition-duration=times.trans)
       for m in memories
-        mixin memory(m.pos, m.rot, m.memory)
+        mixin memory(m.pos, m.rot, m.memory, m.name)
   .side-bar
-    .border
-      .arrow.clickable
-        i.icon-pencil.icon-large.side-bar-icon
-      .arrow-tip
+    i.icon-pencil.icon-large.side-bar-icon
     .content-container
       .content
-        .form.form-horizontal.hidden(action='/add')
+        form.form-horizontal.hidden.form(action='/add',method="post")
           .control-group
             .controls
-              label What has been your fondest memory from the past year and a half that involves Monstercat or the artists?
+              label What has been your fondest memory from the past year and a half thainvolves Monstercat or the artists?
           .control-group
             .controls
               label ***Why do you need my e-mail? We will be sending out thank you gifts to certain people who submit unique memories during this campaign!**
           .control-group
             .controls
-              input.email.input-filed(type='text',placeholder='Enter your e-mail here')
+              input.email.input-filed(type='text',placeholder='Enter your e-mail here',name="email")
           .control-group
             .controls
-              input.email.input-filed(type='text',placeholder='Name')
+              input.name.input-filed(type='text',placeholder='Name',name='name')
           .control-group
             .controls
-              textarea.memory-text.input-filed(rows='10',cols='30',placeholder='Submit your own Monstercat Memories here')
+              textarea.memory-text.input-filed(rows='10',cols='30',placeholder='Submit your own Monstercat Memories here',name='memory')
           .control-group
             .controls
-              a.btn(value='Submit') Submit
+              input.btn(type='submit',value='Submit') Submit
+    .border
+      .arrow.clickable
+      .arrow-tip
 
   script(src='js/components.js')
   script(src='/js/impress.js')

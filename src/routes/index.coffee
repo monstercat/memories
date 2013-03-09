@@ -63,7 +63,7 @@ homeController = (app) ->
       else
         cb lastErr, data
 
-  getMemories = cache 1000, (done)->
+  getMemories = cache 5000, (done)->
     Memory.find {}, (err, memories) ->
       done(err, memories)
 

@@ -41,7 +41,7 @@ validateForm = ()->
 	unless $('.memory-text').val.length > 0
 		return false
 	return false
-sidebar.disable()
+# sidebar.disable()
 
 $(".content-container").click ()->
 	sidebar.show()

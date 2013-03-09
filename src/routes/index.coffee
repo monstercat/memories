@@ -48,22 +48,8 @@ homeController = (app) ->
 
     ]
 
-  cache = (wait, fn)->
-    data = null
-    lastErr = null
-    invalidCache = yes
-    return (cb)->
-      if invalidCache
-        fn (err, d) ->
-          lassErr = null
-          data = d
-          invalidCache = no
-          setTimeout (-> invalidCache = yes), wait
-          cb err,d
-      else
-        cb lastErr, data
 
-  getMemories = cache 5000, (done)->
+  getMemories = util.cache 5000, (done)->
     Memory.find {}, (err, memories) ->
       done(err, memories)
 

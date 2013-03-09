@@ -22,3 +22,19 @@ exports.shuffle = (array)->
     array[m] = array[i]
     array[i] = t
   return array
+
+
+exports.cache = (wait, fn)->
+  data = null
+  lastErr = null
+  invalidCache = yes
+  return (cb)->
+    if invalidCache
+      fn (err, d) ->
+        lassErr = null
+        data = d
+        invalidCache = no
+        setTimeout (-> invalidCache = yes), wait
+        cb err,d
+    else
+      cb lastErr, data

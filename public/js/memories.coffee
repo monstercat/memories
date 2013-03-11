@@ -34,8 +34,8 @@ class Sidebar
 
 sidebar = new Sidebar()
 
-if cookie('memory-submitted')
-	sidebar.disable()
+unless cookie('memory-submitted')
+	$(".side-bar").show()
 
 $(".content-container").click ()->
 	sidebar.show()

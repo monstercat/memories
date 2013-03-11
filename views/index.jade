@@ -17,43 +17,44 @@ block append scripts
           doit();
         }, #{ times.trans });
       }, #{ times.read });
-    }
-    doit();
+    };
 
+    //- doit();
 
 block content
   .memories-container
     #impress(data-transition-duration=times.trans)
       for m in memories
         mixin memory(m.pos, m.rot, m.memory, m.name)
-  .side-bar
+  .side-bar.hidden
     i.icon-pencil.icon-large.side-bar-icon.clickable
     .content-container
       .content
-        form.form-horizontal.hidden.form(action='/add',method="post")
+        form.form-horizontal.hidden.form.memory-form(action='/add',method='post')
           .control-group
             .controls
               h4 What has been your fondest memory from the past year and a half that volves Monstercat or the artists?
           .control-group
             .controls
-              input.email.input-filed(type='text',placeholder='Enter your e-mail here',name="email")
+              input#form-email.input-filed(type='text',placeholder='Enter your e-mail here',name="email")
           .control-group
             .controls
-              input.name.input-filed(type='text',placeholder='Name',name='name')
+              input#form-name.input-filed(type='text',placeholder='Name',name='name')
           .control-group
             .controls
-              textarea.memory-text.input-filed(rows='10',cols='30',placeholder='Submit your own Monstercat Memories here',name='memory')
+              textarea#form-memory.input-filed(rows='10',cols='30',placeholder='Submit your own Monstercat Memories here',name='memory')
           .control-group
             .controls
-              input.btn(type='submit',value='Submit') Submit
+              input.btn(type='submit',value='Submit')
           .control-group
             .controls
               h6 *** Why do you need my e-mail? We will be sending out thank you gifts to certain people who submit unique memories during this campaign! ***
     .border
       .arrow.clickable
       .arrow-tip
+  .hint
+    p Use a spacebar or arrow keys to navigate
 
   script(src='js/components.js')
   script(src='/js/impress.js')
   script(src='/js/memories.js')
-  script(src='/js/bootstrap.min.js')

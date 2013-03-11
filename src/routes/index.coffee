@@ -67,11 +67,12 @@ homeController = (app) ->
       util.shuffle(mems)
       mems = generateEffect(mems)
       maxlen = 725
+      nolongs = _(mems).filter ((m) -> m.memory.length <= maxlen)
 
       res.render "index",
         title: title
-        times: util.calc mems.length
-        memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
+        times: util.calc nolongs.length
+        memories: nolongs
 
 #=----------------------------------------------------------------------------=#
 # Add memory
@@ -83,7 +84,7 @@ homeController = (app) ->
         console.log err if err
         mems = memories.slice(0)
         util.shuffle(mems)
-        mems.unshift(doc)
+        mems.unshift(doc) if doc
         mems = generateEffect(mems)
         maxlen = 725
 
@@ -106,7 +107,6 @@ homeController = (app) ->
       mems = generateEffect(_.sortBy(mems, (m)-> return m._id.toString() != id ))
       maxlen = 725
 
-      res.cookie 'memory-submitted', 'true'
       res.render "index",
         title: title
         times: util.calc mems.length

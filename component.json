@@ -2,6 +2,7 @@
   "name": "memory",
   "dependencies": {
     "component/tip": "0.1.0",
-    "jb55/nightrider-tip": "*"
+    "jb55/nightrider-tip": "*",
+    "component/cookie": "*"
   }
 }

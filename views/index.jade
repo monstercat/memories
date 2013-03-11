@@ -5,25 +5,11 @@ mixin memory(p, r, msg, name)
   .step.slide.memory-slide(data-x=p[0], data-y=p[1], data-z=p[2], data-rotate-x=r[0], data-rotate-y=r[1], data-rotate-z=r[2])
     .memory(style=fsize)
       p= msg
-      hr(style="width: 200px; margin: auto")
       p.name= name
-
-block append scripts
-  script
-    function doit(){
-      setTimeout(function(){
-        impress().next();
-        setTimeout(function(){
-          doit();
-        }, #{ times.trans });
-      }, #{ times.read });
-    };
-
-    //- doit();
 
 block content
   .memories-container
-    #impress(data-transition-duration=times.trans)
+    #impress(data-transition-duration=1000)
       for m in memories
         mixin memory(m.pos, m.rot, m.memory, m.name)
   .side-bar.hidden

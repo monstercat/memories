@@ -107,7 +107,6 @@ homeController = (app) ->
       mems = generateEffect(_.sortBy(mems, (m)-> return m._id.toString() != id ))
       maxlen = 725
 
-      res.cookie 'memory-submitted', 'true'
       res.render "index",
         title: title
         times: util.calc mems.length

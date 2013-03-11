@@ -3,6 +3,6 @@
   "dependencies": {
     "component/tip": "0.1.0",
     "jb55/nightrider-tip": "*",
-    "alertify": "*"
+    "component/cookie": "*"
   }
 }

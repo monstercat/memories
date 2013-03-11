@@ -2,6 +2,7 @@ impress().init()
 
 Tip = require 'component-tip'
 tip = new Tip('Write your Memory').position('north')
+cookie = require 'component-cookie'
 
 class Sidebar
 	constructor: ()->
@@ -33,7 +34,8 @@ class Sidebar
 
 sidebar = new Sidebar()
 
-# sidebar.disable()
+if cookie('memory-submitted')
+	sidebar.disable()
 
 $(".content-container").click ()->
 	sidebar.show()
@@ -58,9 +60,13 @@ $(".side-bar-icon").mouseout ()->
 	tip.hide()
 
 $(".memory-form").submit ()->
-	console.log 'clicked submit'
-	unless $('#form-email').val().length > 0
+	email = $('#form-email').val()
+	unless email.length > 0
 		alertify.error("Please enter you email")
+		return false
+	re =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	unless re.test(email)
+		alertify.error("incorrect email format")
 		return false
 	unless $('#form-name').val().length > 0
 		alertify.error("Please enter you name")

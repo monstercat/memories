@@ -8,6 +8,19 @@
   transition: @x;
 }
 
+.secret {
+  opacity: 0.2;
+  z-index: 10000;
+  margin: 10px;
+  font-size: 16px;
+  @w: 32px;
+  @h: 32px;
+  width: @w;
+  height: @h;
+  background: transparent url('http://united.monstercat.com/img/monstercat_missing.png') no-repeat top left;
+  background-size: @w @h;
+}
+
 .found {
   @w: 128px;
   @h: 128px;

@@ -11,6 +11,7 @@ mixin memory(p, r, msg, name, code)
       p.name= name
 
 block content
+  .secret
   .memories-container
     #impress(data-transition-duration=1000)
       for m in memories

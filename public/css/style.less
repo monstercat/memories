@@ -1,3 +1,4 @@
+@import 'retina.less';
 
 .transition(@x) {
   -webkit-transition: @x;
@@ -5,6 +6,15 @@
   -ms-transition: @x;
   -o-transition: @x;
   transition: @x;
+}
+
+.found {
+  @w: 128px;
+  @h: 128px;
+  margin: auto;
+  width: @w;
+  height: @h;
+  .at2x('/img/found.png', @w, @h);
 }
 
 .radial-gradient(@s,@e) {

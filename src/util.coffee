@@ -23,8 +23,9 @@ exports.shuffle = (array)->
     array[i] = t
   return array
 
-exports.prepare = (mems, effects, fn, n=200) ->
+exports.prepare = (mems, effects, fn, preshuf, n=200) ->
   mems = mems.slice(0)
+  mems = preshuf mems if preshuf
   mems = exports.shuffle(mems)[..n]
   mems = fn mems if fn
   mems = exports.applyEffects(mems, effects)
@@ -60,7 +61,7 @@ exports.applyEffects = (memories, effects)->
   lrot = [30, 0, 20]
 
   mems = for memory in memories
-    memory = memory.toObject()
+    memory = memory.toObject() if memory.toObject
     memory.pos = lpos.slice(0)
     memory.rot = lrot.slice(0)
 

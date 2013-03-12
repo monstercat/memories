@@ -2,6 +2,7 @@
 { _ } = require 'underscore'
 util  = require '../util'
 Memory = require '../models/memory'
+Code   = require '../models/code'
 
 homeController = (app) ->
   rate = 500
@@ -43,13 +44,20 @@ homeController = (app) ->
 # Get memories
 #=----------------------------------------------------------------------------=#
   app.get '/', (req, res) ->
-    getMemories (err, memories)->
-      memories = util.prepare memories, effects
+    Code.find {}, (err, codes) ->
+      { code } = util.random codes
+      getMemories (err, memories)->
+        memories = util.prepare memories, effects, (mems) ->
+          mems.push
+            name: "Monstercat"
+            code: code
+            memory: "You've found an Aftermath album code! Click the gold monstercat to redeem. Act quickly, other may have found it as well!"
+          mems
 
-      res.render "index",
-        title: title
-        times: util.calc memories.length
-        memories: memories
+        res.render "index",
+          title: title
+          times: util.calc memories.length
+          memories: memories
 
 #=----------------------------------------------------------------------------=#
 # Add memory

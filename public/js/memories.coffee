@@ -60,6 +60,8 @@ $(".side-bar-icon").mouseout ()->
 	tip.hide()
 
 $(".memory-form").submit ()->
+	$(this).submit ()->
+		return false
 	email = $('#form-email').val()
 	unless email.length > 0
 		alertify.error("Please enter you email")

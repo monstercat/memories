@@ -1,7 +1,7 @@
 impress().init()
 
 Tip = require 'component-tip'
-tip = new Tip('Write your Memory').position('north')
+arrowTip = new Tip('Write your Memory').position('north')
 cookie = require 'component-cookie'
 
 class Sidebar
@@ -47,17 +47,49 @@ $(".border,.side-bar-icon").click ()->
 # $(".memories-container").click ()->
 # 	sidebar.hide()
 
-$(".arrow").mouseover ()->
-	tip.show $('.arrow').get(0)
+#=----------------------------------------------------------------------------=#
+# tips
+#=----------------------------------------------------------------------------=#
+$arrow = $(".arrow")
+$icon  = $(".side-bar-icon")
 
-$(".arrow").mouseout ()->
-	tip.hide()
+$arrow.mouseover ->
+  arrowTip.show $arrow.get(0)
+$arrow.mouseout ->
+  arrowTip.hide()
 
-$(".side-bar-icon").mouseover ()->
-	tip.show $('.arrow').get(0)
+$icon.mouseover ()->
+  arrowTip.show $arrow.get(0)
+$icon.mouseout ()->
+  arrowTip.hide()
 
-$(".side-bar-icon").mouseout ()->
-	tip.hide()
+do ->
+  $tag = $(".secret")
+  redeemed = $tag.hasClass("allfound")
+
+  msg = if redeemed then "All album codes have been redeemed!" else "There have been rumors of Aftermath album codes hidden within the memory stream..."
+
+  tip = new Tip(msg)
+    .position("east")
+  $tag.mouseover ->
+    $tag.fadeTo('slow', 1)
+    tip.show $tag.get(0)
+  $tag.mouseout ->
+    $tag.fadeTo('slow', 0.2)
+    tip.hide()
+
+openInTab = (url) ->
+  win = window.open(url, '_blank')
+  win.focus()
+
+$("#redeem").click ->
+  $redeem = $(this)
+  code = $redeem.data("code")
+  $.get "/redeem/#{ code }", (data)->
+    if data.success
+      window.location = "http://music.monstercat.com/yum?code=#{ code }"
+    else
+      alertify.error "Sorry, this code has already been redeemed :("
 
 $(".memory-form").submit ()->
 	$(this).submit ()->

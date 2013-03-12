@@ -9,24 +9,6 @@ homeController = (app) ->
 
   title = "Monstercat Memories"
 
-  generateEffect = (memories)->
-    lpos = [0, 0, 0]
-    lrot = [30, 0, 20]
-
-    mems = for memory in memories
-      memory = memory.toObject()
-      memory.pos = lpos.slice(0)
-      memory.rot = lrot.slice(0)
-
-      util.random(effects)(memory)
-
-      lpos = memory.pos
-      lrot = memory.rot
-
-      memory.name = util.anonymise memory.name
-
-      memory
-    mems
 
 #=----------------------------------------------------------------------------=#
 # Effects
@@ -62,17 +44,12 @@ homeController = (app) ->
 #=----------------------------------------------------------------------------=#
   app.get '/', (req, res) ->
     getMemories (err, memories)->
-      mems = memories.slice(0)
-      console.log err if err
-      util.shuffle(mems)
-      mems = generateEffect(mems)
-      maxlen = 725
-      nolongs = _(mems).filter ((m) -> m.memory.length <= maxlen)
+      memories = util.prepare memories, effects
 
       res.render "index",
         title: title
-        times: util.calc nolongs.length
-        memories: nolongs
+        times: util.calc memories.length
+        memories: memories
 
 #=----------------------------------------------------------------------------=#
 # Add memory
@@ -81,18 +58,15 @@ homeController = (app) ->
     new_memory = new Memory req.body
     getMemories (err, memories)->
       new_memory.save (err, doc) ->
-        console.log err if err
-        mems = memories.slice(0)
-        util.shuffle(mems)
-        mems.unshift(doc) if doc
-        mems = generateEffect(mems)
-        maxlen = 725
+        memories = util.prepare memories, effects, (mems) ->
+          mems.unshift doc if doc
+          mems
 
         res.cookie 'memory-submitted', 'true'
         res.render "index",
           title: title
-          times: util.calc mems.length
-          memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
+          times: util.calc memories.length
+          memories: memories
 
 #=----------------------------------------------------------------------------=#
 # get memories and start from a specific one
@@ -101,15 +75,12 @@ homeController = (app) ->
     { id } = req.params
     getMemories (err, memories)->
       console.log err if err
-      mems = memories.slice(0)
-      util.shuffle(mems)
-      mems = _.sortBy(mems, (m)-> return m._id.toString() != id )
-      mems = generateEffect(_.sortBy(mems, (m)-> return m._id.toString() != id ))
-      maxlen = 725
+      memories = util.prepare memories, effects, (ms)->
+        _.sortBy(ms, (m)-> return m._id.toString() != id )
 
       res.render "index",
         title: title
-        times: util.calc mems.length
-        memories: _(mems).filter ((m) -> m.memory.length <= maxlen)
+        times: util.calc memories.length
+        memories: memories
 
 module.exports = homeController

@@ -61,7 +61,7 @@ homeController = (app) ->
           title: title
           times: util.calc memories.length
           memories: memories
-          allRedeemed: codes.length is 0
+          allRedeemed: codes.length is 1
 
   app.get '/redeem/:code', (req, res) ->
     { code } = req.params

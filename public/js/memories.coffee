@@ -87,7 +87,7 @@ $("#redeem").click ->
   code = $redeem.data("code")
   $.get "/redeem/#{ code }", (data)->
     if data.success
-      window.location = "http://music.monstercat.com/yum?code=c#{ code }"
+      window.location = "http://music.monstercat.com/yum?code=#{ code }"
     else
       alertify.error "Sorry, this code has already been redeemed :("
 

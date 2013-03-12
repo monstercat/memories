@@ -64,15 +64,32 @@ $icon.mouseout ()->
   arrowTip.hide()
 
 do ->
-  tip = new Tip("There have been rumors of Aftermath album codes hidden within the memory stream...")
-    .position("east")
   $tag = $(".secret")
+  redeemed = $tag.hasClass("allfound")
+
+  msg = if redeemed then "All album codes have been redeemed!" else "There have been rumors of Aftermath album codes hidden within the memory stream..."
+
+  tip = new Tip(msg)
+    .position("east")
   $tag.mouseover ->
     $tag.fadeTo('slow', 1)
     tip.show $tag.get(0)
   $tag.mouseout ->
     $tag.fadeTo('slow', 0.2)
     tip.hide()
+
+openInTab = (url) ->
+  win = window.open(url, '_blank')
+  win.focus()
+
+$("#redeem").click ->
+  $redeem = $(this)
+  code = $redeem.data("code")
+  $.get "/redeem/#{ code }", (data)->
+    if data.success
+      window.location = "http://music.monstercat.com/yum?code=c#{ code }"
+    else
+      alertify.error "Sorry, this code has already been redeemed :("
 
 $(".memory-form").submit ()->
 	email = $('#form-email').val()

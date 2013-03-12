@@ -5,13 +5,16 @@ mixin memory(p, r, msg, name, code)
   .step.slide.memory-slide(data-x=p[0], data-y=p[1], data-z=p[2], data-rotate-x=r[0], data-rotate-y=r[1], data-rotate-z=r[2])
     .memory(style=fsize)
       if code
-        a(href="http://music.monstercat.com/yum?code=#{ code }", target="_blank")
+        a#redeem(href="javascript:void 0", data-code=code)
           .found
       p= msg
       p.name= name
 
 block content
-  .secret
+  if allRedeemed
+    .secret.allfound
+  else
+    .secret
   .memories-container
     #impress(data-transition-duration=1000)
       for m in memories

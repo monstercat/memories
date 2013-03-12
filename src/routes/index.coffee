@@ -44,20 +44,36 @@ homeController = (app) ->
 # Get memories
 #=----------------------------------------------------------------------------=#
   app.get '/', (req, res) ->
-    Code.find {}, (err, codes) ->
-      { code } = util.random codes
+    q = Code.find().exists("redeemed", false)
+    q.exec (err, codes) ->
+      c = util.random codes
+      { code } = c if c
       getMemories (err, memories)->
         memories = util.prepare memories, effects, null, (mems) ->
-          mems.push
-            name: "Monstercat"
-            code: code
-            memory: "You've found an Aftermath album code! Click the gold monstercat to redeem. Act quickly, other may have found it as well!"
+          if code
+            mems.push
+              name: "Monstercat"
+              code: code
+              memory: "You've found an Aftermath album code! Click the gold monstercat to redeem. Act quickly, other may have found it as well!"
           mems
 
         res.render "index",
           title: title
           times: util.calc memories.length
           memories: memories
+          allRedeemed: codes.length is 0
+
+  app.get '/redeem/:code', (req, res) ->
+    { code } = req.params
+    Code.findOne { code: code }, (err, doc) ->
+      return res.json { success: false } if err
+      return res.json { success: false, err: "Already claimed" } unless doc?
+
+      doc.redeemed = yes
+      doc.save()
+
+      res.json { success: true, code: code }
+
 
 #=----------------------------------------------------------------------------=#
 # Add memory

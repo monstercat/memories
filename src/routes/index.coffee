@@ -47,7 +47,7 @@ homeController = (app) ->
     Code.find {}, (err, codes) ->
       { code } = util.random codes
       getMemories (err, memories)->
-        memories = util.prepare memories, effects, (mems) ->
+        memories = util.prepare memories, effects, null, (mems) ->
           mems.push
             name: "Monstercat"
             code: code

@@ -2,6 +2,7 @@ impress().init()
 
 Tip = require 'component-tip'
 tip = new Tip('Write your Memory').position('north')
+cookie = require 'component-cookie'
 
 class Sidebar
 	constructor: ()->
@@ -32,8 +33,9 @@ class Sidebar
 		$(".side-bar").css("right","-500px")
 
 sidebar = new Sidebar()
-# sidebar.disable()
-# idebar.show()
+
+unless cookie('memory-submitted')
+	$(".side-bar").show()
 
 $(".content-container").click ()->
 	sidebar.show()
@@ -42,8 +44,8 @@ $(".content-container").click ()->
 $(".border,.side-bar-icon").click ()->
 	sidebar.click()
 
-$(".memories-container").click ()->
-	sidebar.hide()
+# $(".memories-container").click ()->
+# 	sidebar.hide()
 
 $(".arrow").mouseover ()->
 	tip.show $('.arrow').get(0)
@@ -56,3 +58,21 @@ $(".side-bar-icon").mouseover ()->
 
 $(".side-bar-icon").mouseout ()->
 	tip.hide()
+
+$(".memory-form").submit ()->
+	email = $('#form-email').val()
+	unless email.length > 0
+		alertify.error("Please enter you email")
+		return false
+	re =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	unless re.test(email)
+		alertify.error("incorrect email format")
+		return false
+	unless $('#form-name').val().length > 0
+		alertify.error("Please enter you name")
+		return false
+	unless $('#form-memory').val().length > 0
+		alertify.error("Please enter you memory")
+		return false
+	return true
+

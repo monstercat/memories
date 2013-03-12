@@ -15,6 +15,19 @@
   background: radial-gradient(@s, @e);
 }
 
+hr {
+  border-color: rgb(137,76,230);
+  width: 200px;
+  margin-bottom: 2px;
+  float: right;
+}
+
+.name {
+  color: #01aaf1;
+  text-align: right;
+  clear: both;
+}
+  
 body {
   // padding: 50px;
   margin: 0px;
@@ -23,7 +36,14 @@ body {
   font-family: "Georgia", "Lucida Grande", Helvetica, Arial, sans-serif;
   //.radial-gradient(#3a3a3a, #161616);
   background-image: url('/img/space.jpg');
-  background-size: 100% auto;
+  background-size: 100% 100%;
+}
+
+.album-image{
+  height: 200px;
+  width: 200px;
+  margin-left: 75px;
+  margin-bottom: 10px;
 }
 
 .step.active {
@@ -33,7 +53,7 @@ body {
 .memory-slide{
   text-align: center;
   width: 800px;
-  opacity: 0.2;
+  opacity: 0.07;
   .transition(opacity 1s);
   line-height: 50px;
 }
@@ -91,7 +111,9 @@ a {
 }
 
 .content{
-  padding: 100px 15px 0px 0px;
+  overflow: auto;
+  padding: 15px 15px 0px 0px;
+  height: 100%;
 }
 
 .hidden{
@@ -100,12 +122,119 @@ a {
 
 .form-horizontal .controls{
   margin-left: 40px;
+
+}
+
+.form-horizontal .control-group{
+  margin-bottom: 10px;
 }
 
 .input-filed{
   width: 260px;
+  height: 150px;
 }
 
 .clickable{
   cursor: pointer;
+}
+
+.alertify-log{
+  background-color: black;
+  font-size: 12px;
+}
+
+.hint {
+    /*
+        We hide the hint until presentation is started and from browsers not supporting
+        impress.js, as they will have a linear scrollable view ...
+    */
+    display: none;
+
+    /*
+        ... and give it some fixed position and nice styles.
+    */
+
+    height: 25px;
+    font-size: 25px;
+    padding: 10px;
+
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0px;
+
+    background-color: rgba(14, 12, 12, 0.49);
+    // background-color: rgba(167, 158, 158, 0.49);
+
+    // background: rgba(0,0,0,0.5);
+    color: #EEE;
+    text-align: center;
+
+    z-index: 100;
+
+    /*
+        By default we don't want the hint to be visible, so we make it transparent ...
+    */
+    opacity: 0;
+
+    /*
+        ... and position it below the bottom of the screen (relative to it's fixed position)
+    */
+    -webkit-transform: translateY(400px);
+    -moz-transform:    translateY(400px);
+    -ms-transform:     translateY(400px);
+    -o-transform:      translateY(400px);
+    transform:         translateY(400px);
+
+    /*
+        Now let's imagine that the hint is visible and we want to fade it out and move out
+        of the screen.
+
+        So we define the transition on the opacity property with 1s duration and another
+        transition on transform property delayed by 1s so it will happen after the fade out
+        on opacity finished.
+
+        This way user will not see the hint moving down.
+    */
+    -webkit-transition: opacity 1s, -webkit-transform 0.5s 1s;
+    -moz-transition:    opacity 1s,    -moz-transform 0.5s 1s;
+    -ms-transition:     opacity 1s,     -ms-transform 0.5s 1s;
+    -o-transition:      opacity 1s,      -o-transform 0.5s 1s;
+    transition:         opacity 1s,         transform 0.5s 1s;
+}
+
+/*
+    Now we 'enable' the hint when presentation is initialized ...
+*/
+.impress-enabled .hint { display: block }
+
+/*
+    ... and we will show it when the first step (with id 'bored') is active.
+*/
+.impress-on-step-1 .hint {
+    /*
+        We remove the transparency and position the hint in its default fixed
+        position.
+    */
+    opacity: 1;
+
+    -webkit-transform: translateY(0px);
+    -moz-transform:    translateY(0px);
+    -ms-transform:     translateY(0px);
+    -o-transform:      translateY(0px);
+    transform:         translateY(0px);
+
+    /*
+        Now for fade in transition we have the oposite situation from the one
+        above.
+
+        First after 4.5s delay we animate the transform property to move the hint
+        into its correct position and after that we fade it in with opacity
+        transition.
+    */
+    -webkit-transition: opacity 1s 5s, -webkit-transform 0.5s 4.5s;
+    -moz-transition:    opacity 1s 5s,    -moz-transform 0.5s 4.5s;
+    -ms-transition:     opacity 1s 5s,     -ms-transform 0.5s 4.5s;
+    -o-transition:      opacity 1s 5s,      -o-transform 0.5s 4.5s;
+    transition:         opacity 1s 5s,         transform 0.5s 4.5s;
 }

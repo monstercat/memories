@@ -1,43 +1,56 @@
 extends layout
 
-mixin memory(p, r, msg)
+mixin memory(p, r, msg, name)
   - var fsize = "font-size: " + 1/(Math.log(msg.length) / 5) + "em";
   .step.slide.memory-slide(data-x=p[0], data-y=p[1], data-z=p[2], data-rotate-x=r[0], data-rotate-y=r[1], data-rotate-z=r[2])
-    p(style=fsize)= msg
+    .memory(style=fsize)
+      p= msg
+      p.name= name
 
 block content
   .memories-container
-    #impress(data-transition-duration=times.trans)
+    #impress(data-transition-duration=1000)
       for m in memories
-        mixin memory(m.pos, m.rot, m.memory)
-  .side-bar
+        mixin memory(m.pos, m.rot, m.memory, m.name)
+  .side-bar.hidden
     i.icon-pencil.icon-large.side-bar-icon.clickable
     .content-container
       .content
-        form.form-horizontal.hidden.form(action='/add',method="post")
+        form.form-horizontal.hidden.form.memory-form(action='/add',method='post')
           .control-group
             .controls
-              h4 What has been your fondest memory from the past year and a half thainvolves Monstercat or the artists?
+              h4 What has been your fondest memory from the past year and a half that involves Monstercat or the artists?
           .control-group
             .controls
-              input.email.input-filed(type='text',placeholder='Enter your e-mail here',name="email")
+              input#form-email.input-filed(type='text',placeholder='Enter your e-mail here',name="email")
           .control-group
             .controls
-              input.name.input-filed(type='text',placeholder='Name',name='name')
+              input#form-name.input-filed(type='text',placeholder='Name',name='name')
           .control-group
             .controls
-              textarea.memory-text.input-filed(rows='10',cols='30',placeholder='Submit your own Monstercat Memories here',name='memory')
+              textarea#form-memory.input-filed(rows='10',cols='30',placeholder='Submit your own Monstercat memories here',name='memory')
           .control-group
             .controls
-              input.btn(type='submit',value='Submit') Submit
+              input.btn(type='submit',value='Submit')
           .control-group
             .controls
-              label ***Why do you need my e-mail? We will be sending out thank you gifts to certain people who submit unique memories during this campaign!***
+              h6 *** Why do you need my e-mail? We will be sending out thank you gifts to certain people who submit unique memories during this campaign! ***
+          img(src= '/img/album_image.jpg',class='album-image')
+          .control-group
+            .controls
+              h5 Aftermath is out now! Support on 
+                br
+                a(href='http://bit.ly/Mcat012iTunes') iTunes, 
+                a(href='http://bit.ly/Mcat012Amazon') Amazon, 
+                span or 
+                a(href='http://bit.ly/Mcat012Bandcamp') Bandcamp.
+              h5
     .border
       .arrow.clickable
       .arrow-tip
+  .hint
+    p Use the spacebar or arrow keys to navigate
 
   script(src='js/components.js')
   script(src='/js/impress.js')
   script(src='/js/memories.js')
-  script(src='/js/bootstrap.min.js')

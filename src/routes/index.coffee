@@ -88,6 +88,7 @@ homeController = (app) ->
 
         res.cookie 'memory-submitted', 'true'
         res.render "index",
+          allRedeemed: no
           title: title
           times: util.calc memories.length
           memories: memories
@@ -103,6 +104,7 @@ homeController = (app) ->
         _.sortBy(ms, (m)-> return m._id.toString() != id )
 
       res.render "index",
+        allRedeemed: no
         title: title
         times: util.calc memories.length
         memories: memories

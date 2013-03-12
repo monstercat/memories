@@ -74,5 +74,8 @@ $(".memory-form").submit ()->
 	unless $('#form-memory').val().length > 0
 		alertify.error("Please enter you memory")
 		return false
+	unless $('#form-memory').val().length <= 725
+		alertify.error("Please enter memory that shorter than 725 characters")
+		return false
 	return true
 

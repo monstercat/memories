@@ -23,6 +23,13 @@ exports.shuffle = (array)->
     array[i] = t
   return array
 
+exports.prepare = (mems, effects, fn, n=200) ->
+  mems = mems.slice(0)
+  mems = exports.shuffle(mems)[..n]
+  mems = fn mems if fn
+  mems = exports.applyEffects(mems, effects)
+  mems = _(mems).filter ((m) -> m.memory.length <= 725)
+  mems
 
 exports.cache = (wait, fn)->
   data = null
@@ -47,3 +54,22 @@ exports.anonymise = (name) ->
     last = xs.pop()
     n.push last[0] if last and last.length > 0
   n.join " "
+
+exports.applyEffects = (memories, effects)->
+  lpos = [0, 0, 0]
+  lrot = [30, 0, 20]
+
+  mems = for memory in memories
+    memory = memory.toObject()
+    memory.pos = lpos.slice(0)
+    memory.rot = lrot.slice(0)
+
+    exports.random(effects)(memory)
+
+    lpos = memory.pos
+    lrot = memory.rot
+
+    memory.name = exports.anonymise memory.name
+
+    memory
+  mems
